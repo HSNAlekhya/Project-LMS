@@ -1,0 +1,12 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<h2>Books List</h2>
+<ul>
+    {% for book in books %}
+        <li>{{ book.title }} by {{ book.author }} ({{ book.quantity }} available)</li>
+    {% empty %}
+        <li>No books found</li>
+    {% endfor %}
+</ul>
+{% endblock %}

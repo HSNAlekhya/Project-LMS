@@ -1,0 +1,23 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<h2>Issue a Book</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="student">Select Student:</label>
+    <select name="student" id="student">
+        {% for s in students %}
+            <option value="{{ s.id }}">{{ s.user.username }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label for="book">Select Book:</label>
+    <select name="book" id="book">
+        {% for b in books %}
+            <option value="{{ b.id }}">{{ b.title }} ({{ b.quantity }} available)</option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Issue Book</button>
+</form>
+{% endblock %}
