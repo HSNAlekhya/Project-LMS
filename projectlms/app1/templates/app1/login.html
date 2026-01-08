@@ -2,6 +2,23 @@
 
 {% block content %}
 <h2>Login</h2>
+<style>
+    form {
+        margin-top: 20px;
+    }
+    input[type="text"], input[type="password"] {
+        width: 200px;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+</style>
 <form method="post">
     {% csrf_token %}
     <input type="text" name="username" placeholder="Username"><br><br>
