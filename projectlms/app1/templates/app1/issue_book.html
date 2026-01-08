@@ -1,23 +1,102 @@
-{% extends 'app1/base.html' %}
+<h1>Issue Books</h1>
 
-{% block content %}
+
+<!-- ISSUE BOOK -->
 <h2>Issue a Book</h2>
 <form method="post">
     {% csrf_token %}
-    <label for="student">Select Student:</label>
-    <select name="student" id="student">
-        {% for s in students %}
-            <option value="{{ s.id }}">{{ s.user.username }}</option>
+    <label>Student:</label>
+    <select name="student" required>
+        {% for student in students %}
+            <option value="{{ student.id }}">{{ student.full_name }}</option>
         {% endfor %}
-    </select><br><br>
+    </select>
 
-    <label for="book">Select Book:</label>
-    <select name="book" id="book">
-        {% for b in books %}
-            <option value="{{ b.id }}">{{ b.title }} ({{ b.quantity }} available)</option>
+    <label>Book:</label>
+    <select name="book" required>
+        {% for book in books %}
+            <option value="{{ book.id }}">{{ book.title }} by {{ book.author }}</option>
         {% endfor %}
-    </select><br><br>
+    </select>
 
-    <button type="submit">Issue Book</button>
+    <button type="submit" name="issue_book">Issue Book</button>
 </form>
-{% endblock %}
+
+<hr>
+
+<!-- ADD STUDENT -->
+<h2>Add Student</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="full_name" placeholder="Full Name" required>
+    <input type="text" name="student_id" placeholder="Student ID" required>
+    <input type="text" name="grade" placeholder="Grade" required>
+
+    <button type="submit" name="add_student">Add Student</button>
+</form>
+
+<hr>
+
+<!-- ADD BOOK -->
+<h2>Add Book</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Book Title" required>
+    <input type="text" name="author" placeholder="Author" required>
+    <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+
+    <button type="submit" name="add_book">Add Book</button>
+</form>
+
+<hr>
+
+<!-- ISSUED BOOKS TABLE -->
+<h2>Issued Books</h2>
+<table border="1">
+    <tr>
+        <th>Student</th>
+        <th>Book</th>
+        <th>Issue Date</th>
+    </tr>
+    {% for issue in issued_books %}
+    <tr>
+        <td>{{ issue.student.full_name }}</td>
+        <td>{{ issue.book.title }}</td>
+        <td>{{ issue.issue_date }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">No books issued yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+<style>
+    table {
+        width: 100 %;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8 px 12 px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    button {
+        margin-top: 20 px;
+        padding: 10 px 15 px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<!-- Back button -->
+<form action="{% url 'dashboard' %}" method="get">
+    <button type="Back">⬅ Back to Dashboard</button>
+</form>
+
