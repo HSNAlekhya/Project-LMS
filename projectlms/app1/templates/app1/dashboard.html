@@ -2,6 +2,20 @@
 
 {% block content %}
 <h2>Dashboard</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100 %;
+    }
+    th, td {
+        border: 1 px solid #9f9e9e;
+        padding: 8 px;
+        text-align: left;
+    }
+    th {
+        background-color: #f0b1b1;
+    }
+</style>
 <p>Welcome, {{ request.user.username }}!</p>
 
 <h3>List of Books</h3>
