@@ -2,6 +2,15 @@
 
 {% block content %}
 <h2>Books List</h2>
+<style>
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10 px;
+    }
+</style>
 <ul>
     {% for book in books %}
         <li>{{ book.title }} by {{ book.author }} ({{ book.quantity }} available)</li>
@@ -10,3 +19,4 @@
     {% endfor %}
 </ul>
 {% endblock %}
+
