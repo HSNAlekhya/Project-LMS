@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Book, Student, IssueBook
+from .models import Book, Student, IssuedBook
 from django.contrib.auth.models import User
 
 def login_view(request):
@@ -36,14 +36,40 @@ def books(request):
     
 @login_required
 def issue_book(request):
-    if request.method == "POST":
-        student = Student.objects.get(id=request.POST['student'])
-        book = Book.objects.get(id=request.POST['book'])
-        IssueBook.objects.create(student=student, book=book)
+ # ADD STUDENT
+    if request.method == "POST" and "add_student" in request.POST:
+        Student.objects.create(
+            full_name=request.POST.get("full_name"),
+            student_id=request.POST.get("student_id"),
+            grade=request.POST.get("grade"),
+        )
+        return redirect("issue_books")
+
+    # ADD BOOK
+    if request.method == "POST" and "add_book" in request.POST:
+        Book.objects.create(
+            title=request.POST.get("title"),
+            author=request.POST.get("author"),
+            quantity=request.POST.get("quantity"),
+        )
+        return redirect("issue_books")
+
+    # ISSUE BOOK
+    if request.method == "POST" and "issue_book" in request.POST:
+        student = Student.objects.get(id=request.POST.get("student"))
+        book = Book.objects.get(id=request.POST.get("book"))
+
+        IssuedBook.objects.create(student=student, book=book)
+
         book.quantity -= 1
         book.save()
-        return redirect('dashboard')
-    
-    students = Student.objects.all()
-    books = Book.objects.filter(quantity__gt=0)
-    return render(request, 'app1/issue_book.html', {'students': students, 'books': books})
+
+        return redirect("issue_books")
+
+    context = {
+        "students": Student.objects.all(),
+        "books": Book.objects.filter(quantity__gt=0),
+        "issued_books": IssuedBook.objects.all()
+    }
+
+    return render(request, "app1/issuebooks.html", context)
