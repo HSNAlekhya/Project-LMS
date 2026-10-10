@@ -46,7 +46,7 @@ GitHub: [HSNAlekhya](https://github.com/HSNAlekhya)
 
 ---
 
-*Developed as a learning project to explore the design and development of digital education solutions.*
+
 
 
 An LMS is a Learning Management System, which is software designed to create, distribute, and track digital training and educational content. 
